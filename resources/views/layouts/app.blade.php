@@ -50,8 +50,8 @@
  $(document).ready(function () {
     $('#tableBasic').dataTable({
         lengthMenu: [
-            [15, 50, 100, -1],
-            [15, 50, 100, "All"]
+            [10, 50, 100, -1],
+            [10, 50, 100, "All"]
         ],
         // scrollX: true,
             oLanguage: {

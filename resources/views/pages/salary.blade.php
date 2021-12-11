@@ -18,16 +18,16 @@
                     <div class="col-md-5">
                         <select name="category" class="custom-select" required>
                             <option value="">เลือกประเภท</option>
-                            <option value="1">ใบรับรองเงินเดือน</option>
-                            <option value="2">ใบรับรองการจ่ายค่าล่วงเวลา</option>
+                            <option value="salary"{{ ($_REQUEST['category'] == 'salary') ? 'SELECTED' : '' }}>ใบรับรองเงินเดือน</option>
+                            <option value="ot"{{ ($_REQUEST['category'] == 'ot') ? 'SELECTED' : '' }}>ใบรับรองการจ่ายค่าล่วงเวลา</option>
                         </select>
                     </div>
                     <div class="col-md-5">
                         <select name="years" class="custom-select" required>
                             <option value="">เลือกปี พ.ศ.</option>
-                            <option value="2563">2563</option>
-                            <option value="2564">2564</option>
-                            <option value="2565">2565</option>
+                            <option value="2563"{{ ($_REQUEST['years'] == '2563') ? 'SELECTED' : '' }}>2563</option>
+                            <option value="2564"{{ ($_REQUEST['years'] == '2564') ? 'SELECTED' : '' }}>2564</option>
+                            <option value="2565"{{ ($_REQUEST['years'] == '2565') ? 'SELECTED' : '' }}>2565</option>
                         </select>
                     </div>
                     <div class="col-md-2">
@@ -40,312 +40,53 @@
             <small><i class="fa fa-exclamation-circle"></i> ข้อมูลทางการเงิน เป็นข้อมูลสำคัญ กรุณาเก็บรักษาไว้เป็นความลับ</small>
         </div>
         <div class="row">
+            @foreach ($sal as $sals)
+            @php 
+                $income = $sals->salary + $sals->pos_incom + $sals->son + $sals->school + $sals->ot 
+                        + $sals->health + $sals->store + $sals->life + $sals->other_income;
+                $outcome = $sals->tax + $sals->co_ordinate + $sals->dead + $sals->car + $sals->house 
+                        + $sals->trat_store + $sals->save_life + $sals->water_elect + $sals->other_pay
+                        + $sals->p5 + $sals->p7;
+                $total = $income - $outcome;
+            @endphp
             <div class="col-md-3" style="margin-bottom: 1rem;">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center">
+                        <h5 class="card-title text-center" style="font-weight: bold;">
                             <i class="fa fa-coins text-warning"></i>
-                            เดือนมกราคม
+                            เดือน{{ MonthThai(date($sals->year."-".$sals->month)) }}
                         </h5>
                         <table class="table table-borderless table-sm">
                             <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
+                                <td style="font-weight: bold;">รวมรายรับ</td>
+                                <td style="font-weight: bold;" class="text-right text-primary">{{ number_format($income,2) }} ฿</td>
                             </tr>
                             <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
+                                <td style="font-weight: bold;">รวมรายจ่าย</td>
+                                <td style="font-weight: bold;" class="text-right text-danger">{{ number_format($outcome,2) }} ฿</td>
                             </tr>
                             <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
+                                <td style="font-weight: bold;">คงเหลือ</td>
+                                <td style="font-weight: bold;" class="text-right text-success">{{ number_format($total,2) }} ฿</td>
                             </tr>
                         </table>
-                        <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
+                        <a href="#" class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3" style="margin-bottom: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <i class="fa fa-coins text-warning"></i>
-                            เดือนกุมภาพันธ์
-                        </h5>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                        </table>
-                         <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3" style="margin-bottom: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <i class="fa fa-coins text-warning"></i>
-                            เดือนมีนาคม
-                        </h5>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                        </table>
-                         <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3" style="margin-bottom: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <i class="fa fa-coins text-warning"></i>
-                            เดือนเมษายน
-                        </h5>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                        </table>
-                         <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3" style="margin-bottom: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <i class="fa fa-coins text-warning"></i>
-                            เดือนพฤษภาคม
-                        </h5>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                        </table>
-                         <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3" style="margin-bottom: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <i class="fa fa-coins text-warning"></i>
-                            เดือนมิถุนายน
-                        </h5>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                        </table>
-                         <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3" style="margin-bottom: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <i class="fa fa-coins text-warning"></i>
-                            เดือนกรกฏาคม
-                        </h5>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                        </table>
-                         <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3" style="margin-bottom: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <i class="fa fa-coins text-warning"></i>
-                            เดือนสิงหาคม
-                        </h5>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                        </table>
-                         <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3" style="margin-bottom: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <i class="fa fa-coins text-warning"></i>
-                            เดือนกันยายน
-                        </h5>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                        </table>
-                         <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3" style="margin-bottom: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <i class="fa fa-coins text-warning"></i>
-                            เดือนตุลาคม
-                        </h5>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                        </table>
-                         <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3" style="margin-bottom: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <i class="fa fa-coins text-warning"></i>
-                            เดือนพฤศจิกายน
-                        </h5>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                        </table>
-                         <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3" style="margin-bottom: 1rem;">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <i class="fa fa-coins text-warning"></i>
-                            เดือนธันวาคม
-                        </h5>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>เงินเดือน</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>รายจ่าย</td>
-                                <td class="text-right">5xx.xx</td>
-                            </tr>
-                            <tr>
-                                <td>คงเหลือ</td>
-                                <td class="text-right">1x,xxx.xx</td>
-                            </tr>
-                        </table>
-                         <button class="btn btn-sm btn-light btn-block"><i class="fa fa-print"></i> พิมพ์สลิปเงินเดือน</button>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </div>
 @endsection
 @section('script')
 <script>
-    
+    Swal.fire({
+       position: 'top-center',
+       icon: 'success',
+       title: 'ประมวลผลเสร็จสิ้น',
+       showConfirmButton: false,
+       timer: 2000
+       })
 </script>
 @endsection

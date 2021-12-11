@@ -13,8 +13,14 @@ class myController extends Controller
         return view('pages.employee',['emp'=>$emp]);
     }
 
-    public function salary()
+    public function salary(Request $request)
     {
-        return view('pages.salary');
+        $sal = DB::table('salary')
+                ->join('employee', 'employee.acc_no', '=', 'salary.acc_no')
+                ->where('employee.acc_no', '525-0-17142-7')
+                ->where('salary.year',$request->get('years'))
+                ->get();
+        // return dd($sal);
+        return view('pages.salary',['sal'=>$sal]);
     }
 }

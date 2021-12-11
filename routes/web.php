@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => '/'], function () {
-	Route::get('salary','myController@salary');
+	Route::get('salary','myController@salary')->name('salary');
 	Route::get('employee','myController@employee');
 });
 

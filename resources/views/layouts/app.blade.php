@@ -26,7 +26,7 @@
     <main role="main" class="container-fluid">
         @yield('content')
     </main>
-    {{-- @include('layouts.foot') --}}
+    @include('layouts.foot')
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
